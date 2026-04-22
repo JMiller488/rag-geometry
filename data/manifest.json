@@ -1,0 +1,38 @@
+[
+  {
+    "filename": "valenzuela_zone2_2025.pdf",
+    "theme": "zone_2",
+    "stance": "pro",
+    "year": 2025
+  },
+  {
+    "filename": "storoschuk_zone2_skeptic_2025.pdf",
+    "theme": "zone_2",
+    "stance": "skeptic",
+    "year": 2025
+  },
+  {
+    "filename": "hydren_polarized_training.pdf",
+    "theme": "periodisation",
+    "stance": "neutral",
+    "year": 2015
+  },
+  {
+    "filename": "clemente_periodization_triathlon_2019.pdf",
+    "theme": "periodisation",
+    "stance": "neutral",
+    "year": 2019
+  },
+  {
+    "filename": "carbohydrate_supplementation_2025.pdf",
+    "theme": "nutrition",
+    "stance": "neutral",
+    "year": 2025
+  },
+  {
+    "filename": "gssi_carbohydrate_endurance.pdf",
+    "theme": "nutrition",
+    "stance": "neutral",
+    "year": 2025
+  }
+]
