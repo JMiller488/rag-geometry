@@ -44,6 +44,32 @@ def query(vector: list[float], top_k: int = 5) -> dict:
     index = get_index()
     return index.query(vector=vector, top_k=top_k, include_metadata=True)
 
+def fetch_all_vectors() -> list[dict]:
+    """Fetch all vectors from the index with their metadata.
+
+    Returns:
+        List of dicts, each with 'id', 'values', and 'metadata'.
+    """
+    index = get_index()
+    stats = index.describe_index_stats()
+    total = stats["total_vector_count"]
+
+    dummy_vector = [0.0] * stats["dimension"]
+    results = index.query(
+        vector=dummy_vector,
+        top_k=total,
+        include_metadata=True,
+        include_values=True,
+    )
+
+    return [
+        {
+            "id": match["id"],
+            "values": match["values"],
+            "metadata": match["metadata"],
+        }
+        for match in results["matches"]
+    ]
 
 if __name__ == "__main__":
     index = get_index()
