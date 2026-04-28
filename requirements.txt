@@ -46,6 +46,7 @@ pillow==12.2.0
 pinecone==8.1.2
 pinecone-plugin-assistant==3.0.3
 pinecone-plugin-interface==0.0.7
+plotly==6.7.0
 protobuf==7.34.1
 pyarrow==24.0.0
 pydantic==2.13.3
