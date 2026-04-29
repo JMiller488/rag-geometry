@@ -5,6 +5,15 @@ A retrieval-augmented generation (RAG) system built from first principles, with 
 ## Motivation
 I wanted to understand RAG from first principles. As a mathematician (with a particular interest in geometry), I wanted to get understand the whole RAG process from a geometrical perspective (embedding, cosine similarity, PCA projection etc.). The end result lets you actually *see* the retrieval happening in a PCA generated 2-dimensional space. My hope is that having a thorough understanding of RAG will allow me to better build and understand Agentic systems.
 
+## Lineage
+
+This project builds on [rag-from-scratch](https://github.com/JMiller488/rag-from-scratch), which implements the same retrieval pipeline with FAISS as an in-memory index and a single-document focus. `rag-geometry` extends that foundation with:
+
+- A managed vector database (Pinecone) replacing the in-memory FAISS index, enabling extra capability such as metadata filtering
+- Multi-document ingestion driven by a JSON manifest, with per-document metadata (theme, stance, year)
+- PCA-based visualisation of the embedding geometry, with query overlay
+- A focus on the mathematical properties of the embedding space rather than just the retrieval pipeline
+
 ## What it does
 
 - **Ingests PDFs** into 500-character overlapping chunks, embeds each chunk using `all-MiniLM-L6-v2` (384 dimensions), and upserts them into Pinecone with metadata (source, theme, stance, year, chunk index).
