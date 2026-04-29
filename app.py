@@ -14,6 +14,7 @@ from retrieval import retrieve
 from llm import generate_answer
 from pinecone_client import fetch_all_vectors
 from visualisation import fit_pca, project, build_corpus_dataframe
+from sentence_transformers import SentenceTransformer
 
 st.set_page_config(page_title="RAG Geometry", layout="wide")
 
@@ -54,6 +55,8 @@ with tab_ask:
     if question:
         with st.spinner("Retrieving relevant chunks..."):
             chunks = retrieve(question, top_k=top_k)
+        st.session_state["last_question"] = question
+        st.session_state["last_chunks"] = chunks
 
         st.header("Retrieved chunks")
         for i, chunk in enumerate(chunks, start=1):
@@ -94,15 +97,63 @@ with tab_geometry:
         ),
     )
 
-    fig = px.scatter(
-    df,
-    x="x",
-    y="y",
-    color="theme",
-    hover_data=["source", "chunk_index", "text", "stance"],
-    title="Corpus projected to 2D, coloured by theme",
+    # Mark which chunks were retrieved by the most recent query
+    last_chunks = st.session_state.get("last_chunks", [])
+    retrieved_keys = {(c["source"], c["chunk_index"]) for c in last_chunks}
+    df = df.copy()
+    df["retrieved"] = df.apply(
+        lambda row: (row["source"], row["chunk_index"]) in retrieved_keys,
+        axis=1,
     )
-    fig.update_traces(marker={"size": 6, "opacity": 0.6})
-    fig.update_layout(height=600)
 
+    # Base scatter — coloured by theme
+    fig = px.scatter(
+        df,
+        x="x",
+        y="y",
+        color="theme",
+        hover_data=["source", "chunk_index", "stance", "text"],
+        title="Corpus projected to 2D, coloured by theme",
+    )
+    fig.update_traces(marker={"size": 6, "opacity": 0.5})
+
+    # Highlight retrieved chunks with a black ring
+    if last_chunks:
+        retrieved_df = df[df["retrieved"]]
+        fig.add_scatter(
+            x=retrieved_df["x"],
+            y=retrieved_df["y"],
+            mode="markers",
+            marker={
+                "size": 14,
+                "color": "rgba(0, 0, 0, 0)",
+                "line": {"color": "black", "width": 2},
+            },
+            name="Retrieved chunks",
+            hoverinfo="skip",
+        )
+
+    # Project and plot the query vector
+    last_question = st.session_state.get("last_question")
+    if last_question:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+        query_embedding = model.encode(last_question, convert_to_numpy=True)
+        query_2d = project(pca, [query_embedding.tolist()])
+
+        fig.add_scatter(
+            x=[query_2d[0, 0]],
+            y=[query_2d[0, 1]],
+            mode="markers",
+            marker={"size": 18, "color": "red", "symbol": "star"},
+            name=f"Query: {last_question[:50]}",
+            hoverinfo="name",
+        )
+
+    fig.update_layout(height=600)
     st.plotly_chart(fig, use_container_width=True)
+
+    if not last_question:
+        st.info(
+            "Ask a question on the Ask tab to see your query "
+            "and the retrieved chunks overlaid on the embedding space."
+        )
