@@ -7,7 +7,7 @@ I wanted to understand RAG from first principles. As a mathematician (with a par
 
 ## Lineage
 
-This project builds on [rag-from-scratch](https://github.com/JMiller488/rag-from-scratch), which implements the same retrieval pipeline with FAISS as an in-memory index and a single-document focus. `rag-geometry` extends that foundation with:
+This project builds on [rag-from-scratch](https://github.com/JMiller488/rag-from-first-principles), which implements the same retrieval pipeline with FAISS as an in-memory index and a single-document focus. `rag-geometry` extends that foundation with:
 
 - A managed vector database (Pinecone) replacing the in-memory FAISS index, enabling extra capability such as metadata filtering
 - Multi-document ingestion driven by a JSON manifest, with per-document metadata (theme, stance, year)
