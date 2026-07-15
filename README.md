@@ -3,7 +3,7 @@
 A retrieval-augmented generation (RAG) system built from first principles, with a particular focus on the **geometry of embedding spaces**. The project ingests a corpus of endurance training and triathlon research papers (interest areas of mine), indexes them in a Pinecone vector database, and exposes both a question-answering interface and an interactive 2-dimensional geometric interpretation of the embedded chunks and query.
 
 ## Motivation
-I wanted to understand RAG from first principles. As a mathematician (with a particular interest in geometry), I wanted to get understand the whole RAG process from a geometrical perspective (embedding, cosine similarity, PCA projection etc.). The end result lets you actually *see* the retrieval happening in a PCA generated 2-dimensional space. My hope is that having a thorough understanding of RAG will allow me to better build and understand Agentic systems.
+I wanted to understand RAG from first principles. As a mathematician (with a particular interest in geometry), I wanted to understand the whole RAG process from a geometrical perspective (embedding, cosine similarity, PCA projection etc.). The end result lets you actually *see* the retrieval happening in a PCA generated 2-dimensional space. My hope is that having a thorough understanding of RAG will allow me to better build and understand Agentic systems.
 
 ## Lineage
 
